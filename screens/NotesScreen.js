@@ -7,17 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import firestore from "firebase/firestore";
+import firebase from "../database/firebaseDB-example";
 
 export default function NotesScreen({ navigation, route }) {
   const [notes, setNotes] = useState([]);
-
-  firebase.firestore().collection("testing").add({
-    title:"Testing! Does this work???",
-    body: "This is to check the Integration is working",
-    potato: true,
-    question: "Why is there a potato boo here",
-  });
 
   // This is to set up the top right button
   useEffect(() => {
@@ -46,9 +39,23 @@ export default function NotesScreen({ navigation, route }) {
         done: false,
         id: notes.length.toString(),
       };
+      firebase.firestore().collection("todos").add(newNote);
       setNotes([...notes, newNote]);
     }
   }, [route.params?.text]);
+
+ /*useEffect(() => {
+    const unsubscribe = firebase
+    .firestore()
+    .collection("todos")
+    .OnSnapshot((snapshot) => {
+      const updateNotes = snapshot.docs.map((doc) => doc.data());
+      setNotes(updateNotes);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);*/
 
   function addNote() {
     navigation.navigate("Add Screen");

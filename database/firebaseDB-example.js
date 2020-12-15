@@ -1,5 +1,5 @@
-import * as firebase from "firebase";
-import {firestore} from "@firebase/app";
+import {firebase} from "@firebase/app";
+import "firebase/firestore";
 
 
 var firebaseConfig = {
